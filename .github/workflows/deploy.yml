@@ -1,0 +1,35 @@
+﻿name: Deploy Blazor PWA to GitHub Pages
+
+on:
+  push:
+    branches: [ master ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publish Blazor Application
+        run: dotnet publish YarnInventoryWeb.csproj -c Release -o release
+
+      - name: Fix base href tag for root hosting
+        run: sed -i 's/<base href="\/" \/>/<base href="\/" \/>/g' release/wwwroot/index.html
+
+      - name: Upload production assets
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: release/wwwroot
+
+      - name: Deploy assets to GitHub Pages live
+        uses: actions/deploy-pages@v4

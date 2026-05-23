@@ -411,3 +411,66 @@ body {
     font-size: 40px;
     margin-bottom: 12px;
 }
+
+/* Modern Sticky Search Bar Design */
+.search-container {
+    padding: 0 16px;
+    margin-bottom: 12px;
+}
+
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: var(--card-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 0 12px;
+    height: 42px;
+}
+
+    .search-input-wrapper:focus-within {
+        border-color: var(--accent-blue);
+        box-shadow: 0 0 0 3px var(--accent-blue-dim);
+    }
+
+.search-icon {
+    color: var(--text-muted);
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.search-box-input {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 14px;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+}
+
+    .search-box-input:focus {
+        outline: none;
+    }
+
+    .search-box-input::placeholder {
+        color: var(--text-muted);
+    }
+
+.clear-search-trigger {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .clear-search-trigger:hover {
+        color: var(--text-primary);
+    }

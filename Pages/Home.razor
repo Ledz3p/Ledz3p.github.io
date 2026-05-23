@@ -51,6 +51,21 @@
         </button>
     </nav>
 
+    <div class="search-container">
+        <div class="search-input-wrapper">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text"
+                   class="search-box-input"
+                   placeholder="Search by color code, type, or brand..."
+                   @bind="_searchQuery"
+                   @bind:event="oninput" />
+            @if (!string.IsNullOrWhiteSpace(_searchQuery))
+            {
+                <button class="clear-search-trigger" @onclick="ClearSearch">✕</button>
+            }
+        </div>
+    </div>
+
     <main class="list-viewport">
         @if (!FilteredItems.Any())
         {
@@ -165,9 +180,35 @@
     private bool _syncFailed = false;
     private string _syncStatus = "Local Storage";
 
-    private IEnumerable<YarnItem> FilteredItems => ActiveTab == InventoryTab.Active
-        ? _items.Where(i => !i.IsDiscontinued)
-        : _items.Where(i => i.IsDiscontinued);
+    //search
+    private string _searchQuery = string.Empty;
+    private void ClearSearch()
+    {
+        _searchQuery = string.Empty;
+    }
+
+    private IEnumerable<YarnItem> FilteredItems
+    {
+        get
+        {
+            // First split items by tab status
+            var baseList = ActiveTab == InventoryTab.Active
+                ? _items.Where(i => !i.IsDiscontinued)
+                : _items.Where(i => i.IsDiscontinued);
+
+            // If there's a search term, apply the text match overlay
+            if (!string.IsNullOrWhiteSpace(_searchQuery))
+            {
+                var query = _searchQuery.Trim().ToLower(); // Custom clear lookup string
+                return baseList.Where(i =>
+                    (i.Title != null && i.Title.ToLower().Contains(_searchQuery.ToLower().Trim())) ||
+                    (i.Brand != null && i.Brand.ToLower().Contains(_searchQuery.ToLower().Trim()))
+                );
+            }
+
+            return baseList;
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {

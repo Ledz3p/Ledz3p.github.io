@@ -416,6 +416,7 @@ body {
 .search-container {
     padding: 0 16px;
     margin-bottom: 12px;
+    flex-shrink: 0; /* Forces the layout engine to respect its 42px height */
 }
 
 .search-input-wrapper {

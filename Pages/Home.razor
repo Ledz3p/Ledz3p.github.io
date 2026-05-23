@@ -1,98 +1,145 @@
 ﻿@page "/"
 @using YarnInventoryWeb.Models
 @using MiniExcelLibs
+@using System.Net.Http.Headers
+@using System.Text.Json
 @inject IJSRuntime JSRuntime
+@inject HttpClient Http
 
-<PageTitle>Yarn Inventory</PageTitle>
+<PageTitle>Yarn Inventory Dashboard</PageTitle>
 
 <div class="app-container">
-    <div class="header-actions">
-        <div class="history-group">
-            <button class="btn btn-action" @onclick="ExecuteUndo" disabled="@(!_undoStack.Any())">
-                ↩ Undo
-            </button>
-            <button class="btn btn-action" @onclick="ExecuteRedo" disabled="@(!_redoStack.Any())">
-                ↪ Redo
-            </button>
+    <header class="app-header">
+        <div class="brand-title">
+            <h2>Yarn Hub</h2>
+            <span class="sync-badge @(_isSyncing ? "syncing" : (_syncFailed ? "failed" : "synced"))">
+                @_syncStatus
+            </span>
         </div>
-        
-        <div class="import-group">
-            <label class="btn btn-import" for="excelFile">📥 Import XLSX</label>
-            <InputFile id="excelFile" OnChange="HandleExcelImport" accept=".xlsx" style="display:none;" />
+
+        <div class="action-bar">
+            <div class="history-controls">
+                <button class="btn btn-icon" @onclick="ExecuteUndo" disabled="@(!_undoStack.Any())" title="Undo">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 7v6h6M21 17a9 9 0 00-9-9 9 9 0 00-6 2.3L3 13" /></svg>
+                </button>
+                <button class="btn btn-icon" @onclick="ExecuteRedo" disabled="@(!_redoStack.Any())" title="Redo">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 7v6h-6M3 17a9 9 0 019-9 9 9 0 016 2.3l3 2.7" /></svg>
+                </button>
+            </div>
+
+            <div class="file-utilities">
+                @if (string.IsNullOrWhiteSpace(_githubToken))
+                {
+                    <button class="btn btn-setup" @onclick="ToggleTokenModal">🔑 Link Cloud</button>
+                }
+                else
+                {
+                    <button class="btn btn-setup connected" @onclick="ToggleTokenModal">⚙️ Cloud Connected</button>
+                }
+                <label class="btn btn-import" for="excelFile">Import Excel</label>
+                <InputFile id="excelFile" OnChange="HandleExcelImport" accept=".xlsx" style="display:none;" />
+            </div>
         </div>
-    </div>
+    </header>
 
-    <div class="tab-navigation">
-        <button class="tab-btn @(ActiveTab == InventoryTab.Active ? "active" : "")" 
-                @onclick="() => SwitchTab(InventoryTab.Active)">
-            In Stock Inventory (@_items.Count(i => !i.IsDiscontinued))
+    <nav class="segmented-tabs">
+        <button class="tab-item @(ActiveTab == InventoryTab.Active ? "active" : "")" @onclick="() => SwitchTab(InventoryTab.Active)">
+            Active Inventory <span class="count-pill">@_items.Count(i => !i.IsDiscontinued)</span>
         </button>
-        <button class="tab-btn @(ActiveTab == InventoryTab.Discontinued ? "active" : "")" 
-                @onclick="() => SwitchTab(InventoryTab.Discontinued)">
-            Discontinued (@_items.Count(i => i.IsDiscontinued))
+        <button class="tab-item @(ActiveTab == InventoryTab.Discontinued ? "active" : "")" @onclick="() => SwitchTab(InventoryTab.Discontinued)">
+            Discontinued <span class="count-pill badge-warn">@_items.Count(i => i.IsDiscontinued)</span>
         </button>
-    </div>
+    </nav>
 
-    <div class="list-scrollarea">
+    <main class="list-viewport">
         @if (!FilteredItems.Any())
         {
-            <div class="empty-state">
-                <p>No yarn items found here.</p>
-                <small>Tap the "Import XLSX" button at the top to load your starting spreadsheets.</small>
+            <div class="empty-state-card">
+                <div class="empty-icon">📦</div>
+                <h3>Your inventory is pristine</h3>
+                <p>Import your starting spreadsheet or add items to see them tracked live.</p>
             </div>
         }
         else
         {
             @foreach (var item in FilteredItems)
             {
-                <div class="yarn-card" key="@item.Id">
-                    <div class="card-details">
-                        <span class="yarn-brand">@item.Brand</span>
-                        <h3 class="yarn-title">@item.Title</h3>
+                <div class="inventory-card" key="@item.Id">
+                    <div class="card-meta">
+                        <span class="item-brand-tag">@item.Brand</span>
+                        <h3 class="item-title">@item.Title</h3>
                     </div>
-                    
-                    <div class="card-controls">
-                        <div class="control-row">
-                            <span class="control-label">Stock:</span>
-                            <div class="stepper">
-                                <button class="step-btn" @onclick="() => AdjustCount(item, i => i.InStock--)">−</button>
-                                <span class="step-value">@item.InStock</span>
-                                <button class="step-btn" @onclick="() => AdjustCount(item, i => i.InStock++)">+</button>
+
+                    <div class="card-metrics-grid">
+                        <div class="metric-control-box">
+                            <span class="metric-label">In Stock</span>
+                            <div class="stepper-engine">
+                                <button class="step-trigger minus" @onclick="() => AdjustCount(item, i => { if (i.InStock > 0) i.InStock--; })">−</button>
+                                <span class="step-display-value">@item.InStock</span>
+                                <button class="step-trigger plus" @onclick="() => AdjustCount(item, i => i.InStock++)">+</button>
                             </div>
                         </div>
 
-                        <div class="control-row">
-                            <span class="control-label">In Bag:</span>
-                            <div class="stepper">
-                                <button class="step-btn" @onclick="() => AdjustCount(item, i => i.InBag--)">−</button>
-                                <span class="step-value">@item.InBag</span>
-                                <button class="step-btn" @onclick="() => AdjustCount(item, i => i.InBag++)">+</button>
+                        <div class="metric-control-box">
+                            <span class="metric-label">Project Bag</span>
+                            <div class="stepper-engine">
+                                <button class="step-trigger minus" @onclick="() => AdjustCount(item, i => { if (i.InBag > 0) i.InBag--; })">−</button>
+                                <span class="step-display-value">@item.InBag</span>
+                                <button class="step-trigger plus" @onclick="() => AdjustCount(item, i => i.InBag++)">+</button>
                             </div>
                         </div>
+                    </div>
 
-                        <button class="btn @(item.IsDiscontinued ? "btn-revive" : "btn-archive")" 
-                                @onclick="() => RequestTabTransition(item)">
-                            @(item.IsDiscontinued ? "📦 Move to Active" : "⚠️ Discontinue Item")
+                    <footer class="card-footer-actions">
+                        <button class="btn-card-action @(item.IsDiscontinued ? "action-revive" : "action-archive")" @onclick="() => RequestTabTransition(item)">
+                            @(item.IsDiscontinued ? "📦 Move to Active Assets" : "⚠️ Tag as Discontinued Product")
                         </button>
-                    </div>
+                    </footer>
                 </div>
             }
         }
-    </div>
+    </main>
 </div>
+
+@if (_showTokenModal)
+{
+    <div class="modal-backdrop">
+        <div class="modal-card">
+            <h3>Cloud Sync Configuration</h3>
+            <p class="modal-instruction">Enter your GitHub credentials to seamlessly sync changes automatically across your phone and PC.</p>
+
+            <div class="input-field-group">
+                <label>GitHub Username</label>
+                <input type="text" class="text-input" @bind="_githubUser" placeholder="e.g., Ledz3p" />
+            </div>
+
+            <div class="input-field-group">
+                <label>Repository Name</label>
+                <input type="text" class="text-input" @bind="_githubRepo" placeholder="e.g., ledz3p.github.io" />
+            </div>
+
+            <div class="input-field-group">
+                <label>Personal Access Token (Classic)</label>
+                <input type="password" class="text-input" @bind="_githubToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" @onclick="ToggleTokenModal">Close</button>
+                <button class="btn btn-primary-accent" @onclick="SaveTokenConfiguration">Save & Initialize Cloud</button>
+            </div>
+        </div>
+    </div>
+}
 
 @if (_pendingTransitionItem != null)
 {
-    <div class="modal-overlay">
-        <div class="modal-surface">
-            <h4>Confirm Relocation</h4>
-            <p>
-                Are you sure you want to move <strong>@_pendingTransitionItem.Brand @_pendingTransitionItem.Title</strong> 
-                to the <strong>@(_pendingTransitionItem.IsDiscontinued ? "Active Inventory" : "Discontinued")</strong> tab?
-            </p>
-            <div class="modal-actions">
-                <button class="btn btn-cancel" @onclick="CancelTabTransition">Cancel</button>
-                <button class="btn btn-confirm" @onclick="ConfirmTabTransition">Confirm Move</button>
+    <div class="modal-backdrop">
+        <div class="modal-card warning-accent">
+            <h3>Confirm Status Shift</h3>
+            <p>Are you sure you want to transfer <strong>@_pendingTransitionItem.Brand @_pendingTransitionItem.Title</strong> to the <strong>@(_pendingTransitionItem.IsDiscontinued ? "Active Inventory" : "Discontinued")</strong> category?</p>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" @onclick="CancelTabTransition">Cancel</button>
+                <button class="btn btn-danger-accent" @onclick="ConfirmTabTransition">Confirm Relocation</button>
             </div>
         </div>
     </div>
@@ -107,19 +154,34 @@
     private Stack<HistorySnapshot> _redoStack = new();
     private YarnItem? _pendingTransitionItem;
 
+    // Cloud Configuration state variables
+    private string _githubUser = "Ledz3p";
+    private string _githubRepo = "ledz3p.github.io";
+    private string _githubToken = "";
+    private string _currentSha = "";
+
+    private bool _showTokenModal = false;
+    private bool _isSyncing = false;
+    private bool _syncFailed = false;
+    private string _syncStatus = "Local Storage";
+
     private IEnumerable<YarnItem> FilteredItems => ActiveTab == InventoryTab.Active
         ? _items.Where(i => !i.IsDiscontinued)
         : _items.Where(i => i.IsDiscontinued);
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadCredentials();
         await LoadStateFromStorage();
+        if (!string.IsNullOrWhiteSpace(_githubToken))
+        {
+            await PullStateFromGitHub();
+        }
     }
 
-    private void SwitchTab(InventoryTab targetTab)
-    {
-        ActiveTab = targetTab;
-    }
+    private void SwitchTab(InventoryTab targetTab) => ActiveTab = targetTab;
+    private void ToggleTokenModal() => _showTokenModal = !_showTokenModal;
+    private void CancelTabTransition() => _pendingTransitionItem = null;
 
     private void CaptureSnapshot()
     {
@@ -131,18 +193,10 @@
     {
         CaptureSnapshot();
         mutation(item);
-        await SaveStateToStorage();
+        await SaveAndSync();
     }
 
-    private void RequestTabTransition(YarnItem item)
-    {
-        _pendingTransitionItem = item;
-    }
-
-    private void CancelTabTransition()
-    {
-        _pendingTransitionItem = null;
-    }
+    private void RequestTabTransition(YarnItem item) => _pendingTransitionItem = item;
 
     private async Task ConfirmTabTransition()
     {
@@ -151,7 +205,7 @@
             CaptureSnapshot();
             _pendingTransitionItem.IsDiscontinued = !_pendingTransitionItem.IsDiscontinued;
             _pendingTransitionItem = null;
-            await SaveStateToStorage();
+            await SaveAndSync();
         }
     }
 
@@ -161,7 +215,7 @@
         {
             _redoStack.Push(new HistorySnapshot(_items));
             _items = _undoStack.Pop().Items;
-            await SaveStateToStorage();
+            await SaveAndSync();
         }
     }
 
@@ -171,13 +225,19 @@
         {
             _undoStack.Push(new HistorySnapshot(_items));
             _items = _redoStack.Pop().Items;
-            await SaveStateToStorage();
+            await SaveAndSync();
         }
+    }
+
+    private async Task SaveAndSync()
+    {
+        await SaveStateToStorage();
+        await PushStateToGitHub();
     }
 
     private async Task SaveStateToStorage()
     {
-        var serializedData = System.Text.Json.JsonSerializer.Serialize(_items);
+        var serializedData = JsonSerializer.Serialize(_items);
         await JSRuntime.InvokeVoidAsync("window.localStorageFunctions.saveValue", "yarn_inventory_data", serializedData);
     }
 
@@ -188,14 +248,160 @@
             var rawData = await JSRuntime.InvokeAsync<string?>("window.localStorageFunctions.getValue", "yarn_inventory_data");
             if (!string.IsNullOrWhiteSpace(rawData))
             {
-                var loaded = System.Text.Json.JsonSerializer.Deserialize<List<YarnItem>>(rawData);
-                if (loaded != null)
-                {
-                    _items = loaded;
-                }
+                _items = JsonSerializer.Deserialize<List<YarnItem>>(rawData) ?? new();
             }
         }
         catch { }
+    }
+
+    private async Task SaveCredentials()
+    {
+        await JSRuntime.InvokeVoidAsync("window.localStorageFunctions.saveValue", "gh_user", _githubUser);
+        await JSRuntime.InvokeVoidAsync("window.localStorageFunctions.saveValue", "gh_repo", _githubRepo);
+        await JSRuntime.InvokeVoidAsync("window.localStorageFunctions.saveValue", "gh_token", _githubToken);
+    }
+
+    private async Task LoadCredentials()
+    {
+        try
+        {
+            _githubUser = await JSRuntime.InvokeAsync<string?>("window.localStorageFunctions.getValue", "gh_user") ?? "Ledz3p";
+            _githubRepo = await JSRuntime.InvokeAsync<string?>("window.localStorageFunctions.getValue", "gh_repo") ?? "ledz3p.github.io";
+            _githubToken = await JSRuntime.InvokeAsync<string?>("window.localStorageFunctions.getValue", "gh_token") ?? "";
+        }
+        catch { }
+    }
+
+    private async Task SaveTokenConfiguration()
+    {
+        await SaveCredentials();
+        _showTokenModal = false;
+        await PullStateFromGitHub();
+    }
+
+    // ================= GITHUB BACKGROUND SYNC ENGINE =================
+    private async Task PullStateFromGitHub()
+    {
+        if (string.IsNullOrWhiteSpace(_githubToken)) return;
+
+        _isSyncing = true;
+        _syncFailed = false;
+        _syncStatus = "Syncing with cloud...";
+        StateHasChanged();
+
+        try
+        {
+            var requestUrl = $"https://api.github.com/repos/{_githubUser}/{_githubRepo}/contents/inventory.json";
+            var request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+            request.Headers.UserAgent.Add(new ProductInfoHeaderValue("YarnPWA", "1.0"));
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _githubToken);
+
+            var response = await Http.SendAsync(request);
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                using var doc = JsonDocument.Parse(content);
+                var root = doc.RootElement;
+
+                _currentSha = root.GetProperty("sha").GetString() ?? "";
+                var base64Data = root.GetProperty("content").GetString()?.Replace("\n", "").Replace("\r", "") ?? "";
+                var jsonBytes = Convert.FromBase64String(base64Data);
+                var cloudItems = JsonSerializer.Deserialize<List<YarnItem>>(jsonBytes);
+
+                if (cloudItems != null)
+                {
+                    _items = cloudItems;
+                    await SaveStateToStorage();
+                    _syncStatus = "Cloud Synced";
+                }
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                _syncStatus = "Cloud Init Ready"; // File doesn't exist in repo yet
+            }
+            else
+            {
+                _syncFailed = true;
+                _syncStatus = "Sync Failed Connection";
+            }
+        }
+        catch
+        {
+            _syncFailed = true;
+            _syncStatus = "Cloud Offline";
+        }
+        finally
+        {
+            _isSyncing = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task PushStateToGitHub()
+    {
+        if (string.IsNullOrWhiteSpace(_githubToken)) return;
+
+        _isSyncing = true;
+        _syncStatus = "Saving changes...";
+        StateHasChanged();
+
+        try
+        {
+            var requestUrl = $"https://api.github.com/repos/{_githubUser}/{_githubRepo}/contents/inventory.json";
+
+            // Re-fetch SHA metadata to minimize split-universe concurrency conflicts
+            var getRequest = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+            getRequest.Headers.UserAgent.Add(new ProductInfoHeaderValue("YarnPWA", "1.0"));
+            getRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _githubToken);
+            var getResponse = await Http.SendAsync(getRequest);
+            if (getResponse.IsSuccessStatusCode)
+            {
+                using var doc = JsonDocument.Parse(await getResponse.Content.ReadAsStringAsync());
+                _currentSha = doc.RootElement.GetProperty("sha").GetString() ?? "";
+            }
+
+            var rawJson = JsonSerializer.Serialize(_items, new JsonSerializerOptions { WriteIndented = true });
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(rawJson);
+            var base64Json = Convert.ToBase64String(plainTextBytes);
+
+            var payload = new
+            {
+                message = "Automated Inventory State Sync Update via Mobile Device PWA",
+                content = base64Json,
+                sha = string.IsNullOrWhiteSpace(_currentSha) ? null : _currentSha
+            };
+
+            var putRequest = new HttpRequestMessage(HttpMethod.Put, requestUrl)
+            {
+                Content = new StringContent(JsonSerializer.Serialize(payload), System.Text.Encoding.UTF8, "application/json")
+            };
+            putRequest.Headers.UserAgent.Add(new ProductInfoHeaderValue("YarnPWA", "1.0"));
+            putRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _githubToken);
+
+            var putResponse = await Http.SendAsync(putRequest);
+            if (putResponse.IsSuccessStatusCode)
+            {
+                using var putDoc = JsonDocument.Parse(await putResponse.Content.ReadAsStringAsync());
+                _currentSha = putDoc.RootElement.GetProperty("content").GetProperty("sha").GetString() ?? "";
+                _syncFailed = false;
+                _syncStatus = "Cloud Synced";
+            }
+            else
+            {
+                _syncFailed = true;
+                _syncStatus = "Write Fault Check Auth";
+            }
+        }
+        catch
+        {
+            _syncFailed = true;
+            _syncStatus = "Cloud Target Unreachable";
+        }
+        finally
+        {
+            _isSyncing = false;
+            StateHasChanged();
+        }
     }
 
     private async Task HandleExcelImport(InputFileChangeEventArgs e)
@@ -209,14 +415,11 @@
 
             var importedList = new List<YarnItem>();
 
-            // 1. PROCESS THE ACTIVE "Yarn" SHEET
             var activeRows = memoryStream.Query(sheetName: "Yarn", useHeaderRow: true).ToList();
             foreach (IDictionary<string, object> row in activeRows)
             {
                 string brand = row.ContainsKey("Brand") ? row["Brand"]?.ToString() ?? "" : "";
                 string type = row.ContainsKey("Type") ? row["Type"]?.ToString() ?? "" : "";
-
-                // Handling decimal numbers safely in case a fractional value exists
                 double.TryParse(row.ContainsKey("In stock #") ? row["In stock #"]?.ToString() : "0", out double stock);
                 double.TryParse(row.ContainsKey("In project bag #") ? row["In project bag #"]?.ToString() : "0", out double bag);
 
@@ -233,16 +436,12 @@
                 }
             }
 
-            // 2. PROCESS THE "Discontinued Yarn" SHEET
-            // Reset position so MiniExcel can query a different tab on the stream
             memoryStream.Position = 0;
             var discRows = memoryStream.Query(sheetName: "Discontinued Yarn", useHeaderRow: true).ToList();
             foreach (IDictionary<string, object> row in discRows)
             {
                 string brand = row.ContainsKey("Brand") ? row["Brand"]?.ToString() ?? "" : "";
                 string type = row.ContainsKey("Type") ? row["Type"]?.ToString() ?? "" : "";
-
-                // In your file, discontinued counts use "# of bags" and "Singles" columns
                 double.TryParse(row.ContainsKey("# of bags") ? row["# of bags"]?.ToString() : "0", out double bagsCount);
                 double.TryParse(row.ContainsKey("Singles") ? row["Singles"]?.ToString() : "0", out double singlesCount);
 
@@ -259,11 +458,10 @@
                 }
             }
 
-            // If processing succeeded, swap the inventory over and save
             if (importedList.Any())
             {
                 _items = importedList;
-                await SaveStateToStorage();
+                await SaveAndSync();
             }
         }
         catch (Exception ex)

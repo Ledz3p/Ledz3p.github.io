@@ -3,7 +3,7 @@
     "Id": "eff9da33-e967-4764-bc64-5cdf862c0ad7",
     "Title": "1150-01 WHITE",
     "Brand": "Parfait Chunky",
-    "InStock": 0,
+    "InStock": 1,
     "InBag": 0,
     "IsDiscontinued": false
   },
@@ -587,7 +587,7 @@
     "Id": "7fa32ab4-1c7a-48b9-a510-d7de73cfa457",
     "Title": "1150-45 PINK LEMONADE BAG OF 3",
     "Brand": "Parfait Chunky Discontinued",
-    "InStock": 5,
+    "InStock": 6,
     "InBag": 0,
     "IsDiscontinued": true
   },

@@ -1,7 +1,274 @@
 ﻿@page "/"
+@using YarnInventoryWeb.Models
+@using MiniExcelLibs
+@inject IJSRuntime JSRuntime
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Yarn Inventory</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="app-container">
+    <div class="header-actions">
+        <div class="history-group">
+            <button class="btn btn-action" @onclick="ExecuteUndo" disabled="@(!_undoStack.Any())">
+                ↩ Undo
+            </button>
+            <button class="btn btn-action" @onclick="ExecuteRedo" disabled="@(!_redoStack.Any())">
+                ↪ Redo
+            </button>
+        </div>
+        
+        <div class="import-group">
+            <label class="btn btn-import" for="excelFile">📥 Import XLSX</label>
+            <InputFile id="excelFile" OnChange="HandleExcelImport" accept=".xlsx" style="display:none;" />
+        </div>
+    </div>
 
-Welcome to your new app.
+    <div class="tab-navigation">
+        <button class="tab-btn @(ActiveTab == InventoryTab.Active ? "active" : "")" 
+                @onclick="() => SwitchTab(InventoryTab.Active)">
+            In Stock Inventory (@_items.Count(i => !i.IsDiscontinued))
+        </button>
+        <button class="tab-btn @(ActiveTab == InventoryTab.Discontinued ? "active" : "")" 
+                @onclick="() => SwitchTab(InventoryTab.Discontinued)">
+            Discontinued (@_items.Count(i => i.IsDiscontinued))
+        </button>
+    </div>
+
+    <div class="list-scrollarea">
+        @if (!FilteredItems.Any())
+        {
+            <div class="empty-state">
+                <p>No yarn items found here.</p>
+                <small>Tap the "Import XLSX" button at the top to load your starting spreadsheets.</small>
+            </div>
+        }
+        else
+        {
+            @foreach (var item in FilteredItems)
+            {
+                <div class="yarn-card" key="@item.Id">
+                    <div class="card-details">
+                        <span class="yarn-brand">@item.Brand</span>
+                        <h3 class="yarn-title">@item.Title</h3>
+                    </div>
+                    
+                    <div class="card-controls">
+                        <div class="control-row">
+                            <span class="control-label">Stock:</span>
+                            <div class="stepper">
+                                <button class="step-btn" @onclick="() => AdjustCount(item, i => i.InStock--)">−</button>
+                                <span class="step-value">@item.InStock</span>
+                                <button class="step-btn" @onclick="() => AdjustCount(item, i => i.InStock++)">+</button>
+                            </div>
+                        </div>
+
+                        <div class="control-row">
+                            <span class="control-label">In Bag:</span>
+                            <div class="stepper">
+                                <button class="step-btn" @onclick="() => AdjustCount(item, i => i.InBag--)">−</button>
+                                <span class="step-value">@item.InBag</span>
+                                <button class="step-btn" @onclick="() => AdjustCount(item, i => i.InBag++)">+</button>
+                            </div>
+                        </div>
+
+                        <button class="btn @(item.IsDiscontinued ? "btn-revive" : "btn-archive")" 
+                                @onclick="() => RequestTabTransition(item)">
+                            @(item.IsDiscontinued ? "📦 Move to Active" : "⚠️ Discontinue Item")
+                        </button>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@if (_pendingTransitionItem != null)
+{
+    <div class="modal-overlay">
+        <div class="modal-surface">
+            <h4>Confirm Relocation</h4>
+            <p>
+                Are you sure you want to move <strong>@_pendingTransitionItem.Brand @_pendingTransitionItem.Title</strong> 
+                to the <strong>@(_pendingTransitionItem.IsDiscontinued ? "Active Inventory" : "Discontinued")</strong> tab?
+            </p>
+            <div class="modal-actions">
+                <button class="btn btn-cancel" @onclick="CancelTabTransition">Cancel</button>
+                <button class="btn btn-confirm" @onclick="ConfirmTabTransition">Confirm Move</button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private enum InventoryTab { Active, Discontinued }
+    private InventoryTab ActiveTab { get; set; } = InventoryTab.Active;
+
+    private List<YarnItem> _items = new();
+    private Stack<HistorySnapshot> _undoStack = new();
+    private Stack<HistorySnapshot> _redoStack = new();
+    private YarnItem? _pendingTransitionItem;
+
+    private IEnumerable<YarnItem> FilteredItems => ActiveTab == InventoryTab.Active
+        ? _items.Where(i => !i.IsDiscontinued)
+        : _items.Where(i => i.IsDiscontinued);
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadStateFromStorage();
+    }
+
+    private void SwitchTab(InventoryTab targetTab)
+    {
+        ActiveTab = targetTab;
+    }
+
+    private void CaptureSnapshot()
+    {
+        _undoStack.Push(new HistorySnapshot(_items));
+        _redoStack.Clear();
+    }
+
+    private async Task AdjustCount(YarnItem item, Action<YarnItem> mutation)
+    {
+        CaptureSnapshot();
+        mutation(item);
+        await SaveStateToStorage();
+    }
+
+    private void RequestTabTransition(YarnItem item)
+    {
+        _pendingTransitionItem = item;
+    }
+
+    private void CancelTabTransition()
+    {
+        _pendingTransitionItem = null;
+    }
+
+    private async Task ConfirmTabTransition()
+    {
+        if (_pendingTransitionItem != null)
+        {
+            CaptureSnapshot();
+            _pendingTransitionItem.IsDiscontinued = !_pendingTransitionItem.IsDiscontinued;
+            _pendingTransitionItem = null;
+            await SaveStateToStorage();
+        }
+    }
+
+    private async Task ExecuteUndo()
+    {
+        if (_undoStack.Any())
+        {
+            _redoStack.Push(new HistorySnapshot(_items));
+            _items = _undoStack.Pop().Items;
+            await SaveStateToStorage();
+        }
+    }
+
+    private async Task ExecuteRedo()
+    {
+        if (_redoStack.Any())
+        {
+            _undoStack.Push(new HistorySnapshot(_items));
+            _items = _redoStack.Pop().Items;
+            await SaveStateToStorage();
+        }
+    }
+
+    private async Task SaveStateToStorage()
+    {
+        var serializedData = System.Text.Json.JsonSerializer.Serialize(_items);
+        await JSRuntime.InvokeVoidAsync("window.localStorageFunctions.saveValue", "yarn_inventory_data", serializedData);
+    }
+
+    private async Task LoadStateFromStorage()
+    {
+        try
+        {
+            var rawData = await JSRuntime.InvokeAsync<string?>("window.localStorageFunctions.getValue", "yarn_inventory_data");
+            if (!string.IsNullOrWhiteSpace(rawData))
+            {
+                var loaded = System.Text.Json.JsonSerializer.Deserialize<List<YarnItem>>(rawData);
+                if (loaded != null)
+                {
+                    _items = loaded;
+                }
+            }
+        }
+        catch { }
+    }
+
+    private async Task HandleExcelImport(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            CaptureSnapshot();
+            using var memoryStream = new MemoryStream();
+            await e.File.OpenReadStream(maxAllowedSize: 15 * 1024 * 1024).CopyToAsync(memoryStream);
+            memoryStream.Position = 0;
+
+            var importedList = new List<YarnItem>();
+
+            // 1. PROCESS THE ACTIVE "Yarn" SHEET
+            var activeRows = memoryStream.Query(sheetName: "Yarn", useHeaderRow: true).ToList();
+            foreach (IDictionary<string, object> row in activeRows)
+            {
+                string brand = row.ContainsKey("Brand") ? row["Brand"]?.ToString() ?? "" : "";
+                string type = row.ContainsKey("Type") ? row["Type"]?.ToString() ?? "" : "";
+
+                // Handling decimal numbers safely in case a fractional value exists
+                double.TryParse(row.ContainsKey("In stock #") ? row["In stock #"]?.ToString() : "0", out double stock);
+                double.TryParse(row.ContainsKey("In project bag #") ? row["In project bag #"]?.ToString() : "0", out double bag);
+
+                if (!string.IsNullOrWhiteSpace(type))
+                {
+                    importedList.Add(new YarnItem
+                    {
+                        Brand = string.IsNullOrWhiteSpace(brand) ? "Unknown Brand" : brand.Trim(),
+                        Title = type.Trim(),
+                        InStock = (int)Math.Floor(stock),
+                        InBag = (int)Math.Floor(bag),
+                        IsDiscontinued = false
+                    });
+                }
+            }
+
+            // 2. PROCESS THE "Discontinued Yarn" SHEET
+            // Reset position so MiniExcel can query a different tab on the stream
+            memoryStream.Position = 0;
+            var discRows = memoryStream.Query(sheetName: "Discontinued Yarn", useHeaderRow: true).ToList();
+            foreach (IDictionary<string, object> row in discRows)
+            {
+                string brand = row.ContainsKey("Brand") ? row["Brand"]?.ToString() ?? "" : "";
+                string type = row.ContainsKey("Type") ? row["Type"]?.ToString() ?? "" : "";
+
+                // In your file, discontinued counts use "# of bags" and "Singles" columns
+                double.TryParse(row.ContainsKey("# of bags") ? row["# of bags"]?.ToString() : "0", out double bagsCount);
+                double.TryParse(row.ContainsKey("Singles") ? row["Singles"]?.ToString() : "0", out double singlesCount);
+
+                if (!string.IsNullOrWhiteSpace(type))
+                {
+                    importedList.Add(new YarnItem
+                    {
+                        Brand = string.IsNullOrWhiteSpace(brand) ? "Discontinued Brand" : brand.Trim(),
+                        Title = type.Trim(),
+                        InStock = (int)Math.Floor(singlesCount),
+                        InBag = (int)Math.Floor(bagsCount),
+                        IsDiscontinued = true
+                    });
+                }
+            }
+
+            // If processing succeeded, swap the inventory over and save
+            if (importedList.Any())
+            {
+                _items = importedList;
+                await SaveStateToStorage();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Excel Import Pipeline Fault: {ex.Message}");
+        }
+    }
+}

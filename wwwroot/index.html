@@ -29,6 +29,16 @@
         <a class="dismiss">🗙</a>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script>
+        window.localStorageFunctions = {
+            saveValue: function (key, value) {
+                localStorage.setItem(key, value);
+            },
+            getValue: function (key) {
+                return localStorage.getItem(key);
+            }
+        };
+    </script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
 </body>
 

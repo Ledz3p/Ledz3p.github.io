@@ -51,19 +51,16 @@
         </button>
     </nav>
 
-    <div class="search-container">
-        <div class="search-input-wrapper">
+    <div class="search-container row-layout">
+        <div class="search-input-wrapper flex-grow">
             <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <input type="text"
-                   class="search-box-input"
-                   placeholder="Search by color code, type, or brand..."
-                   @bind="_searchQuery"
-                   @bind:event="oninput" />
+            <input type="text" class="search-box-input" placeholder="Search by name, code, brand..." @bind="_searchQuery" @bind:event="oninput" />
             @if (!string.IsNullOrWhiteSpace(_searchQuery))
             {
                 <button class="clear-search-trigger" @onclick="ClearSearch">✕</button>
             }
         </div>
+        <button class="btn btn-add-manual" @onclick="ToggleAddModal">➕ Add</button>
     </div>
 
     <main class="list-viewport">
@@ -80,41 +77,100 @@
             @foreach (var item in FilteredItems)
             {
                 <div class="inventory-card" key="@item.Id">
-                    <div class="card-meta">
-                        <span class="item-brand-tag">@item.Brand</span>
-                        <h3 class="item-title">@item.Title</h3>
-                    </div>
+                    @if (_editingItemId == item.Id)
+                    {
+                        <div class="edit-mode-form">
+                            <div class="input-field-group">
+                                <label>Brand</label>
+                                <input type="text" class="text-input modern-compact" @bind="_editingBrand" />
+                            </div>
+                            <div class="input-field-group">
+                                <label>Color Code & Name</label>
+                                <input type="text" class="text-input modern-compact" @bind="_editingTitle" />
+                            </div>
+                            <div class="inline-edit-actions">
+                                <button class="btn-text-action action-cancel" @onclick="CancelEditing">Cancel</button>
+                                <button class="btn-text-action action-save" @onclick="() => SaveInlineEdit(item)">Save Changes</button>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="card-meta">
+                            <div class="card-title-row">
+                                <span class="item-brand-tag">@item.Brand</span>
+                                <button class="btn-inline-edit" @onclick="() => StartEditing(item)" title="Edit Name/Brand">✏️</button>
+                            </div>
+                            <h3 class="item-title">@item.Title</h3>
+                        </div>
 
-                    <div class="card-metrics-grid">
-                        <div class="metric-control-box">
-                            <span class="metric-label">In Stock</span>
-                            <div class="stepper-engine">
-                                <button class="step-trigger minus" @onclick="() => AdjustCount(item, i => { if (i.InStock > 0) i.InStock--; })">−</button>
-                                <span class="step-display-value">@item.InStock</span>
-                                <button class="step-trigger plus" @onclick="() => AdjustCount(item, i => i.InStock++)">+</button>
+                        <div class="card-metrics-grid">
+                            <div class="metric-control-box">
+                                <span class="metric-label">In Stock</span>
+                                <div class="stepper-engine">
+                                    <button class="step-trigger minus" @onclick="() => AdjustCount(item, i => { if (i.InStock > 0) i.InStock--; })">−</button>
+                                    <span class="step-display-value">@item.InStock</span>
+                                    <button class="step-trigger plus" @onclick="() => AdjustCount(item, i => i.InStock++)">+</button>
+                                </div>
+                            </div>
+
+                            <div class="metric-control-box">
+                                <span class="metric-label">Project Bag</span>
+                                <div class="stepper-engine">
+                                    <button class="step-trigger minus" @onclick="() => AdjustCount(item, i => { if (i.InBag > 0) i.InBag--; })">−</button>
+                                    <span class="step-display-value">@item.InBag</span>
+                                    <button class="step-trigger plus" @onclick="() => AdjustCount(item, i => i.InBag++)">+</button>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="metric-control-box">
-                            <span class="metric-label">Project Bag</span>
-                            <div class="stepper-engine">
-                                <button class="step-trigger minus" @onclick="() => AdjustCount(item, i => { if (i.InBag > 0) i.InBag--; })">−</button>
-                                <span class="step-display-value">@item.InBag</span>
-                                <button class="step-trigger plus" @onclick="() => AdjustCount(item, i => i.InBag++)">+</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <footer class="card-footer-actions">
-                        <button class="btn-card-action @(item.IsDiscontinued ? "action-revive" : "action-archive")" @onclick="() => RequestTabTransition(item)">
-                            @(item.IsDiscontinued ? "📦 Move to Active Assets" : "⚠️ Tag as Discontinued Product")
-                        </button>
-                    </footer>
+                        <footer class="card-footer-actions">
+                            <button class="btn-card-action @(item.IsDiscontinued ? "action-revive" : "action-archive")" @onclick="() => RequestTabTransition(item)">
+                                @(item.IsDiscontinued ? "📦 Move to Active Assets" : "⚠️ Tag as Discontinued Product")
+                            </button>
+                        </footer>
+                    }
                 </div>
             }
         }
     </main>
 </div>
+
+@if (_showAddModal)
+{
+    <div class="modal-backdrop">
+        <div class="modal-card">
+            <h3>Add New Product Entry</h3>
+            <p class="modal-instruction">Manually register a custom yarn type into your local tracking tables.</p>
+
+            <div class="input-field-group">
+                <label>Brand Name</label>
+                <input type="text" class="text-input" @bind="_newItem.Brand" placeholder="e.g., Parfait Chunky" />
+            </div>
+
+            <div class="input-field-group">
+                <label>Color Code & Description</label>
+                <input type="text" class="text-input" @bind="_newItem.Title" placeholder="e.g., 1150-68 LEMONADE" />
+            </div>
+
+            <div class="card-metrics-grid" style="margin-top: 14px;">
+                <div class="input-field-group">
+                    <label>Initial Stock</label>
+                    <input type="number" class="text-input" @bind="_newItem.InStock" min="0" />
+                </div>
+                <div class="input-field-group">
+                    <label>Project Bag</label>
+                    <input type="number" class="text-input" @bind="_newItem.InBag" min="0" />
+                </div>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" @onclick="ToggleAddModal">Cancel</button>
+                <button class="btn btn-primary-accent" @onclick="SaveManualEntry" disabled="@(string.IsNullOrWhiteSpace(_newItem.Title))">Create Entry</button>
+            </div>
+        </div>
+    </div>
+}
 
 @if (_showTokenModal)
 {
@@ -187,26 +243,108 @@
         _searchQuery = string.Empty;
     }
 
+    // State management for Manual Additions
+    private bool _showAddModal = false;
+    private YarnItem _newItem = new();
+
+    // State management for Inline Editing
+    private string? _editingItemId;
+    private string _editingBrand = string.Empty;
+    private string _editingTitle = string.Empty;
+
+    private void ToggleAddModal()
+    {
+        _showAddModal = !_showAddModal;
+        if (_showAddModal)
+        {
+            _newItem = new YarnItem
+            {
+                Id = Guid.NewGuid().ToString(), // Ensure unique ID mapping
+                IsDiscontinued = ActiveTab == InventoryTab.Discontinued
+            };
+        }
+    }
+
+    private async Task SaveManualEntry()
+    {
+        if (string.IsNullOrWhiteSpace(_newItem.Title)) return;
+
+        CaptureSnapshot();
+
+        if (string.IsNullOrWhiteSpace(_newItem.Brand))
+        {
+            _newItem.Brand = _newItem.IsDiscontinued ? "Discontinued Brand" : "Unknown Brand";
+        }
+
+        _items.Add(_newItem);
+        _showAddModal = false;
+        await SaveAndSync();
+    }
+
+    private void StartEditing(YarnItem item)
+    {
+        _editingItemId = item.Id;
+        _editingBrand = item.Brand ?? "";
+        _editingTitle = item.Title ?? "";
+    }
+
+    private void CancelEditing()
+    {
+        _editingItemId = null;
+    }
+
+    private async Task SaveInlineEdit(YarnItem item)
+    {
+        if (string.IsNullOrWhiteSpace(_editingTitle)) return;
+
+        CaptureSnapshot();
+        item.Brand = _editingBrand.Trim();
+        item.Title = _editingTitle.Trim();
+        _editingItemId = null;
+
+        await SaveAndSync();
+    }
+
     private IEnumerable<YarnItem> FilteredItems
     {
         get
         {
-            // First split items by tab status
+            // 1. Separate items by active/discontinued status
             var baseList = ActiveTab == InventoryTab.Active
                 ? _items.Where(i => !i.IsDiscontinued)
                 : _items.Where(i => i.IsDiscontinued);
 
-            // If there's a search term, apply the text match overlay
+            // 2. Apply search filter if query is present
             if (!string.IsNullOrWhiteSpace(_searchQuery))
             {
-                var query = _searchQuery.Trim().ToLower(); // Custom clear lookup string
-                return baseList.Where(i =>
-                    (i.Title != null && i.Title.ToLower().Contains(_searchQuery.ToLower().Trim())) ||
-                    (i.Brand != null && i.Brand.ToLower().Contains(_searchQuery.ToLower().Trim()))
+                var query = _searchQuery.Trim().ToLower();
+                baseList = baseList.Where(i =>
+                    (i.Title != null && i.Title.ToLower().Contains(query)) ||
+                    (i.Brand != null && i.Brand.ToLower().Contains(query))
                 );
             }
 
-            return baseList;
+            // 3. Sort alphabetically by the color name (ignoring the ####-## prefix if present)
+            return baseList.OrderBy(i =>
+            {
+                if (string.IsNullOrWhiteSpace(i.Title)) return string.Empty;
+
+                int dashIndex = i.Title.IndexOf('-');
+                if (dashIndex >= 0 && dashIndex < i.Title.Length - 1)
+                {
+                    // Grabs everything after the first '-' and strips extra spaces
+                    return i.Title.Substring(dashIndex + 1).Trim().ToLower();
+                }
+
+                // If there's no dash, check for a space after a leading number block
+                var parts = i.Title.Split(' ', 2);
+                if (parts.Length > 1 && double.TryParse(parts[0], out _))
+                {
+                    return parts[1].Trim().ToLower();
+                }
+
+                return i.Title.Trim().ToLower();
+            });
         }
     }
 

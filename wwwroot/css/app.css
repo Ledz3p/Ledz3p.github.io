@@ -475,3 +475,91 @@ body {
     .clear-search-trigger:hover {
         color: var(--text-primary);
     }
+
+/* Layout Alignment adjustments for adding manual row elements */
+.row-layout {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.flex-grow {
+    flex: 1;
+}
+
+.btn-add-manual {
+    background-color: var(--card-surface);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    padding: 0 16px;
+    height: 42px;
+    font-size: 13px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .btn-add-manual:active {
+        background-color: var(--card-inner);
+    }
+
+/* Inline Edit layout features */
+.card-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-inline-edit {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 4px;
+    opacity: 0.5;
+    transition: opacity 0.15s ease;
+}
+
+    .btn-inline-edit:hover {
+        opacity: 1;
+    }
+
+.edit-mode-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.text-input.modern-compact {
+    padding: 6px 10px;
+    font-size: 13px;
+    background-color: var(--card-inner);
+}
+
+.inline-edit-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 6px;
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 10px;
+}
+
+.btn-text-action {
+    background: none;
+    border: none;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+    .btn-text-action.action-cancel {
+        color: var(--text-muted);
+    }
+
+    .btn-text-action.action-save {
+        color: var(--accent-blue);
+    }

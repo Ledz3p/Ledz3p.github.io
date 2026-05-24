@@ -532,7 +532,7 @@
     "Title": "09 VERY BERRY BAG OF 3",
     "Brand": "Parfait Chunky Discontinued",
     "InStock": 3,
-    "InBag": 1,
+    "InBag": 0,
     "IsDiscontinued": true
   },
   {
@@ -540,7 +540,7 @@
     "Title": "1150-33 DUSTY MAUVE BAG OF 3",
     "Brand": "Parfait Chunky Discontinued",
     "InStock": 3,
-    "InBag": 1,
+    "InBag": 0,
     "IsDiscontinued": true
   },
   {
@@ -548,31 +548,31 @@
     "Title": "1150-37 ORCHID BAG OF 3",
     "Brand": "Parfait Chunky Discontinued",
     "InStock": 3,
-    "InBag": 1,
+    "InBag": 0,
     "IsDiscontinued": true
   },
   {
     "Id": "c8e3a56f-5080-4868-9def-bba5f90fdbc8",
     "Title": "1150-38 PLUM BAG OF 3",
     "Brand": "Parfait Chunky Discontinued",
-    "InStock": 0,
-    "InBag": 1,
+    "InStock": 3,
+    "InBag": 0,
     "IsDiscontinued": true
   },
   {
     "Id": "810d72c4-ee26-438f-910a-9947e969c5fb",
     "Title": "1150-42 ESPRESSO BAG OF 3",
     "Brand": "Parfait Chunky Discontinued",
-    "InStock": 0,
-    "InBag": 1,
+    "InStock": 3,
+    "InBag": 0,
     "IsDiscontinued": true
   },
   {
     "Id": "27ddb4e3-1bd1-486d-9715-61fea45971bf",
     "Title": "1150-43 PALE BLUE BAG OF 3",
     "Brand": "Parfait Chunky Discontinued",
-    "InStock": 0,
-    "InBag": 1,
+    "InStock": 3,
+    "InBag": 0,
     "IsDiscontinued": true
   },
   {
@@ -580,15 +580,15 @@
     "Title": "1150-44 SEAGLASS BAG OF 3",
     "Brand": "Parfait Chunky Discontinued",
     "InStock": 3,
-    "InBag": 1,
+    "InBag": 0,
     "IsDiscontinued": true
   },
   {
     "Id": "7fa32ab4-1c7a-48b9-a510-d7de73cfa457",
     "Title": "1150-45 PINK LEMONADE BAG OF 3",
     "Brand": "Parfait Chunky Discontinued",
-    "InStock": 1,
-    "InBag": 1,
+    "InStock": 6,
+    "InBag": 0,
     "IsDiscontinued": true
   },
   {
@@ -596,7 +596,7 @@
     "Title": "1150-47 PEACOCK BAG OF 3",
     "Brand": "Parfait Chunky Discontinued",
     "InStock": 3,
-    "InBag": 1,
+    "InBag": 0,
     "IsDiscontinued": true
   },
   {
@@ -604,7 +604,7 @@
     "Title": "53 LAGOON BAG OF 3",
     "Brand": "Parfait Chunky Discontinued",
     "InStock": 5,
-    "InBag": 1,
+    "InBag": 0,
     "IsDiscontinued": true
   },
   {
@@ -612,7 +612,7 @@
     "Title": "Rose",
     "Brand": "Parfait Chunky Discontinued",
     "InStock": 3,
-    "InBag": 1,
+    "InBag": 0,
     "IsDiscontinued": true
   }
 ]

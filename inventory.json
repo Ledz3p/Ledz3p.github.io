@@ -525,7 +525,7 @@
     "Brand": "Parfait Chunky",
     "InStock": 3,
     "InBag": 0,
-    "IsDiscontinued": false
+    "IsDiscontinued": true
   },
   {
     "Id": "24a045c6-f882-4512-b17f-e321f7b5ed34",

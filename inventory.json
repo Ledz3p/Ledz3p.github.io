@@ -702,5 +702,13 @@
     "InStock": 0,
     "InBag": 0,
     "IsDiscontinued": false
+  },
+  {
+    "Id": "73e8f43f-9fa8-463b-9cd5-f3eac1aba463",
+    "Title": "Amethyst (1150-103)",
+    "Brand": "Parfait Chunky ",
+    "InStock": 0,
+    "InBag": 0,
+    "IsDiscontinued": false
   }
 ]

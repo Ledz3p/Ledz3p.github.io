@@ -734,5 +734,13 @@
     "InStock": 0,
     "InBag": 0,
     "IsDiscontinued": false
+  },
+  {
+    "Id": "204b7c42-2d3a-429f-9c8c-cb447bc3cd51",
+    "Title": "Inkwell",
+    "Brand": "Bernat Blanket",
+    "InStock": 1,
+    "InBag": 0,
+    "IsDiscontinued": false
   }
 ]

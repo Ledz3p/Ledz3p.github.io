@@ -742,5 +742,13 @@
     "InStock": 1,
     "InBag": 0,
     "IsDiscontinued": false
+  },
+  {
+    "Id": "2f471004-62a4-4732-9eb8-8fcaf4461473",
+    "Title": "Black",
+    "Brand": "Bernat Blanket",
+    "InStock": 1,
+    "InBag": 0,
+    "IsDiscontinued": false
   }
 ]

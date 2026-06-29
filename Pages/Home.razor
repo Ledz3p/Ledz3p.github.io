@@ -100,6 +100,7 @@
                             <div class="card-title-row">
                                 <span class="item-brand-tag">@item.Brand</span>
                                 <button class="btn-inline-edit" @onclick="() => StartEditing(item)" title="Edit Name/Brand">✏️</button>
+                                <button class="btn-inline-delete" @onclick="() => RequestDeletion(item)" title="Permanently Delete Row">🗑️</button>
                             </div>
                             <h3 class="item-title">@item.Title</h3>
                         </div>
@@ -216,6 +217,20 @@
     </div>
 }
 
+@if (_pendingDeleteItem != null)
+{
+    <div class="modal-backdrop">
+        <div class="modal-card danger-theme">
+            <h3>Permanently Delete Entry?</h3>
+            <p>Are you sure you want to completely erase <strong>@_pendingDeleteItem.Brand @_pendingDeleteItem.Title</strong> from your cloud master database? This action cannot be undone.</p>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" @onclick="CancelDeletion">Cancel</button>
+                <button class="btn btn-danger-accent" @onclick="ConfirmDeletion">Delete Permanently</button>
+            </div>
+        </div>
+    </div>
+}
+
 @code {
     private enum InventoryTab { Active, Discontinued }
     private InventoryTab ActiveTab { get; set; } = InventoryTab.Active;
@@ -235,6 +250,30 @@
     private bool _isSyncing = false;
     private bool _syncFailed = false;
     private string _syncStatus = "Local Storage";
+
+    // State management for Permanent Deletion
+    private YarnItem? _pendingDeleteItem;
+
+    private void RequestDeletion(YarnItem item)
+    {
+        _pendingDeleteItem = item;
+    }
+
+    private void CancelDeletion()
+    {
+        _pendingDeleteItem = null;
+    }
+
+    private async Task ConfirmDeletion()
+    {
+        if (_pendingDeleteItem != null)
+        {
+            CaptureSnapshot();
+            _items.Remove(_pendingDeleteItem);
+            _pendingDeleteItem = null;
+            await SaveAndSync();
+        }
+    }
 
     //search
     private string _searchQuery = string.Empty;

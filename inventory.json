@@ -1,15 +1,15 @@
 [
   {
     "Id": "eff9da33-e967-4764-bc64-5cdf862c0ad7",
-    "Title": "1150-01 WHITE",
+    "Title": "WHITE (1150-01 )",
     "Brand": "Parfait Chunky",
     "InStock": 0,
-    "InBag": 0,
+    "InBag": 1,
     "IsDiscontinued": false
   },
   {
     "Id": "0abfd4ed-703e-4d6f-b166-bee3f735e8f5",
-    "Title": "1150-02 YELLOW",
+    "Title": "YELLOW (1150-02)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -17,15 +17,15 @@
   },
   {
     "Id": "cee022a2-859d-4f5c-aee5-416e2c87135f",
-    "Title": "1150-03 COTTON CANDY",
+    "Title": "COTTON CANDY (1150-03)",
     "Brand": "Parfait Chunky",
-    "InStock": 1,
-    "InBag": 1,
+    "InStock": 2,
+    "InBag": 0,
     "IsDiscontinued": false
   },
   {
     "Id": "9f51dbd9-a4b8-45bd-890a-564daf0907e7",
-    "Title": "1150-04 LILAC",
+    "Title": "LILAC (1150-04)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -33,7 +33,7 @@
   },
   {
     "Id": "d06dbfba-13de-438c-9dcd-934e82b4fc96",
-    "Title": "1150-05 LIGHT BLUE",
+    "Title": "LIGHT BLUE (1150-05)",
     "Brand": "Parfait Chunky",
     "InStock": 1,
     "InBag": 0,
@@ -41,7 +41,7 @@
   },
   {
     "Id": "e9983d4b-898a-4bb6-9a4b-21e4397a6dea",
-    "Title": "1150-06 MINT",
+    "Title": "MINT (1150-06)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -49,7 +49,7 @@
   },
   {
     "Id": "168d72db-d38d-4bb8-a73c-138b9deb6c29",
-    "Title": "1150-07 CREAM",
+    "Title": "CREAM (1150-07)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 1,
@@ -57,7 +57,7 @@
   },
   {
     "Id": "3470adac-5a4a-4ad9-a080-17fbdde9c0bd",
-    "Title": "1150-08 BUBBLEGUM",
+    "Title": "BUBBLEGUM (1150-08)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -65,15 +65,15 @@
   },
   {
     "Id": "4f504275-402b-4c06-865b-dec4e061369f",
-    "Title": "1150-10 BLACK",
+    "Title": "BLACK (1150-10)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
-    "InBag": 0,
+    "InBag": 1,
     "IsDiscontinued": false
   },
   {
     "Id": "d280b0f3-b864-4b81-bd2f-e3a437ce9dc4",
-    "Title": "1150-11 MANGO",
+    "Title": "MANGO (1150-11)",
     "Brand": "Parfait Chunky",
     "InStock": 1,
     "InBag": 0,
@@ -81,15 +81,15 @@
   },
   {
     "Id": "dba5be6b-70bd-409c-a39b-3a4e15422643",
-    "Title": "1150-12 SUNSHINE",
+    "Title": "SUNSHINE (1150-12)",
     "Brand": "Parfait Chunky",
-    "InStock": 0,
-    "InBag": 1,
+    "InStock": 1,
+    "InBag": 0,
     "IsDiscontinued": false
   },
   {
     "Id": "33216e32-a686-41e7-ba8c-e6862a4d9aca",
-    "Title": "1150-13 BRIGHT PINK",
+    "Title": "BRIGHT PINK (1150-13)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -97,7 +97,7 @@
   },
   {
     "Id": "e96009ab-490a-431c-bf10-b3936eff7712",
-    "Title": "1150-14 SEASIDE",
+    "Title": "SEASIDE (1150-14)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -105,7 +105,7 @@
   },
   {
     "Id": "4b90cf1b-bba3-4eec-8fea-07e61fd7c7b3",
-    "Title": "1150-15 TANGERINE",
+    "Title": "TANGERINE (1150-15)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 1,
@@ -113,23 +113,23 @@
   },
   {
     "Id": "ebca0b2b-483e-489d-9841-c1ccb3a62f90",
-    "Title": "1150-16 TOFFEE",
+    "Title": "TOFFEE (1150-16)",
     "Brand": "Parfait Chunky",
-    "InStock": 1,
-    "InBag": 0,
-    "IsDiscontinued": false
-  },
-  {
-    "Id": "d94663b0-07f2-4669-b265-d4ce30f05c67",
-    "Title": "1150-17 POPPY",
-    "Brand": "Parfait Chunky",
-    "InStock": 1,
+    "InStock": 0,
     "InBag": 1,
     "IsDiscontinued": false
   },
   {
+    "Id": "d94663b0-07f2-4669-b265-d4ce30f05c67",
+    "Title": "POPPY (1150-17)",
+    "Brand": "Parfait Chunky",
+    "InStock": 2,
+    "InBag": 0,
+    "IsDiscontinued": false
+  },
+  {
     "Id": "9721934e-c9cd-44c9-a158-55dcf3c3f98a",
-    "Title": "1150-18 BALLET PINK",
+    "Title": "BALLET PINK (1150-18)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -137,15 +137,15 @@
   },
   {
     "Id": "6b7e45c1-6c12-440f-b417-1bab1e25e7ba",
-    "Title": "1150-19 SEAL",
+    "Title": "SEAL (1150-19)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
-    "InBag": 0,
+    "InBag": 1,
     "IsDiscontinued": false
   },
   {
     "Id": "f999983f-0976-4d84-bc56-2b6a730af16d",
-    "Title": "1150-20 NAVY",
+    "Title": "NAVY (1150-20)",
     "Brand": "Parfait Chunky",
     "InStock": 2,
     "InBag": 0,
@@ -153,15 +153,15 @@
   },
   {
     "Id": "9bc69ab1-3445-44e3-87d9-8ef3d00d4942",
-    "Title": "1150-21 RUBY",
+    "Title": "RUBY (1150-21)",
     "Brand": "Parfait Chunky",
-    "InStock": 1,
-    "InBag": 1,
+    "InStock": 2,
+    "InBag": 0,
     "IsDiscontinued": false
   },
   {
     "Id": "1844acbe-cc62-4f06-ac61-b3a062a22ffb",
-    "Title": "1150-22 PEACH",
+    "Title": "PEACH (1150-22)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -169,7 +169,7 @@
   },
   {
     "Id": "4374cd4e-a32d-4c54-b261-cc056e411460",
-    "Title": "1150-23 HIBISCUS",
+    "Title": "HIBISCUS (1150-23)",
     "Brand": "Parfait Chunky",
     "InStock": 2,
     "InBag": 1,
@@ -177,7 +177,7 @@
   },
   {
     "Id": "a93ec232-9414-4fdf-aa83-d45b029c1ff9",
-    "Title": "1150-24 PALE GRAY",
+    "Title": "PALE GRAY (1150-24)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -185,7 +185,7 @@
   },
   {
     "Id": "96ea3899-5f82-418a-b4f6-c8a7017ab49b",
-    "Title": "1150-25 AZURE",
+    "Title": "AZURE (1150-25)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -193,7 +193,7 @@
   },
   {
     "Id": "abee049c-c7c9-46e3-8919-52491ec0a367",
-    "Title": "1150-26 BLUE",
+    "Title": "BLUE (1150-26)",
     "Brand": "Parfait Chunky",
     "InStock": 1,
     "InBag": 0,
@@ -201,7 +201,7 @@
   },
   {
     "Id": "1c5a12b6-5bba-4a70-91e9-6d2db9453d33",
-    "Title": "1150-27 EGGPLANT",
+    "Title": "EGGPLANT (1150-27)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -209,7 +209,7 @@
   },
   {
     "Id": "7a8073b7-3c4e-41be-a1f5-401c21e8ef0b",
-    "Title": "1150-28 CLASSIC BLUE",
+    "Title": "CLASSIC BLUE (1150-28)",
     "Brand": "Parfait Chunky",
     "InStock": 1,
     "InBag": 0,
@@ -217,15 +217,15 @@
   },
   {
     "Id": "0c7fde2f-1dc8-426e-a155-03e6eca934ab",
-    "Title": "1150-29 MUSTARD",
+    "Title": "MUSTARD (1150-29)",
     "Brand": "Parfait Chunky",
-    "InStock": 0,
-    "InBag": 1,
+    "InStock": 1,
+    "InBag": 0,
     "IsDiscontinued": false
   },
   {
     "Id": "2203c511-0b75-4257-b306-2e6954e35138",
-    "Title": "1150-30 EMERALD",
+    "Title": "EMERALD (1150-30)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -233,7 +233,7 @@
   },
   {
     "Id": "880be1ed-0912-430c-9998-c66a22a667a1",
-    "Title": "1150-31 CORAL",
+    "Title": "CORAL (1150-31)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -241,7 +241,7 @@
   },
   {
     "Id": "35442a2e-62f8-4791-b919-fc89859e5e44",
-    "Title": "1150-32 SHELL",
+    "Title": "SHELL (1150-32)",
     "Brand": "Parfait Chunky",
     "InStock": 1,
     "InBag": 0,
@@ -249,7 +249,7 @@
   },
   {
     "Id": "dc96e894-4c88-4a54-91ed-44acc63d2416",
-    "Title": "1150-34 TURQUOISE",
+    "Title": "TURQUOISE (1150-34)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -257,7 +257,7 @@
   },
   {
     "Id": "a003221b-5a1f-4a24-bb68-615a16b04d40",
-    "Title": "1150-35 CHOCOLATE",
+    "Title": "CHOCOLATE (1150-35)",
     "Brand": "Parfait Chunky",
     "InStock": 1,
     "InBag": 0,
@@ -265,7 +265,7 @@
   },
   {
     "Id": "440bcb50-e8a6-4a10-9684-be8d802fc6d1",
-    "Title": "1150-36 TEDDY BEAR",
+    "Title": "TEDDY BEAR (1150-36)",
     "Brand": "Parfait Chunky",
     "InStock": 1,
     "InBag": 0,
@@ -273,7 +273,7 @@
   },
   {
     "Id": "a5d858ea-9c28-4ecc-b3f3-556cab8e0b2f",
-    "Title": "1150-39 IRIS",
+    "Title": "IRIS (1150-39)",
     "Brand": "Parfait Chunky",
     "InStock": 1,
     "InBag": 0,
@@ -281,23 +281,23 @@
   },
   {
     "Id": "90f083e4-a0d8-4c27-9097-5f14891eb187",
-    "Title": "1150-40 CORNFLOWER",
+    "Title": "CORNFLOWER (1150-40)",
     "Brand": "Parfait Chunky",
-    "InStock": 0,
+    "InStock": 2,
     "InBag": 0,
     "IsDiscontinued": false
   },
   {
     "Id": "066bb9e7-08ec-472c-9720-5a7df9d4cad0",
-    "Title": "1150-41 MUSHROOM",
+    "Title": "MUSHROOM (1150-41)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
-    "InBag": 1,
+    "InBag": 2,
     "IsDiscontinued": false
   },
   {
     "Id": "1d72601d-9a38-4048-b442-468fb122dfbc",
-    "Title": "1150-46 RAIN",
+    "Title": "RAIN (1150-46)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -305,7 +305,7 @@
   },
   {
     "Id": "136d106f-f7c5-46a9-8260-7179e5634bd5",
-    "Title": "1150-49 KEY LIME",
+    "Title": "KEY LIME (1150-49)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -313,15 +313,15 @@
   },
   {
     "Id": "ecc4723e-f859-4249-a116-04717e2d44a8",
-    "Title": "1150-51 CARDINAL",
+    "Title": "CARDINAL (1150-51)",
     "Brand": "Parfait Chunky",
-    "InStock": 0,
+    "InStock": 2,
     "InBag": 0,
     "IsDiscontinued": false
   },
   {
     "Id": "e06943f3-b8aa-488b-8e2c-d6f47aed9c20",
-    "Title": "1150-56 FOG",
+    "Title": "FOG (1150-56)",
     "Brand": "Parfait Chunky",
     "InStock": 1,
     "InBag": 0,
@@ -329,7 +329,7 @@
   },
   {
     "Id": "b8711cdd-9935-49c0-bb94-ba3ce268d24c",
-    "Title": "1150-58 CHARTREUSE",
+    "Title": "CHARTREUSE (1150-58)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -337,47 +337,47 @@
   },
   {
     "Id": "927f560b-463e-4aaf-8631-d0de6ed79c60",
-    "Title": "1150-66 SAGE",
+    "Title": "SAGE (1150-66)",
     "Brand": "Parfait Chunky",
-    "InStock": 0,
-    "InBag": 1,
+    "InStock": 1,
+    "InBag": 0,
     "IsDiscontinued": false
   },
   {
     "Id": "6c963b9e-a165-4d27-a530-85052eb9ec0a",
-    "Title": "1150-72 CANDY APPLE",
+    "Title": "CANDY APPLE (1150-72)",
     "Brand": "Parfait Chunky",
-    "InStock": 0,
+    "InStock": 3,
     "InBag": 0,
     "IsDiscontinued": false
   },
   {
     "Id": "62d8c9af-04ae-4e93-bf6f-b2f62fcc0aae",
-    "Title": "1150-73 HARVEST",
+    "Title": "HARVEST (1150-73)",
     "Brand": "Parfait Chunky",
-    "InStock": 0,
+    "InStock": 3,
     "InBag": 0,
     "IsDiscontinued": false
   },
   {
     "Id": "1ca44568-f2a1-4e2f-a269-1a7e05972a1b",
-    "Title": "1150-74 MAIZE",
+    "Title": "MAIZE (1150-74)",
     "Brand": "Parfait Chunky",
-    "InStock": 0,
+    "InStock": 3,
     "InBag": 0,
     "IsDiscontinued": false
   },
   {
     "Id": "8e8e8cd7-2d8f-48b1-b562-49e39b022714",
-    "Title": "1150-75 GOBLIN",
+    "Title": "GOBLIN (1150-75)",
     "Brand": "Parfait Chunky",
-    "InStock": 0,
+    "InStock": 3,
     "InBag": 0,
     "IsDiscontinued": false
   },
   {
     "Id": "fd42969c-91af-4741-bc60-eff22e75c47b",
-    "Title": "1150-76 SUNDOWN",
+    "Title": "SUNDOWN (1150-76)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -385,7 +385,7 @@
   },
   {
     "Id": "d0a5bfaf-0671-4529-a293-3e85482cb038",
-    "Title": "1150-77 HAZE",
+    "Title": "HAZE (1150-77)",
     "Brand": "Parfait Chunky",
     "InStock": 1,
     "InBag": 0,
@@ -393,7 +393,7 @@
   },
   {
     "Id": "61179ca8-90f4-4a3c-85aa-ff5209ea0827",
-    "Title": "1150-78 CHARCOAL",
+    "Title": "CHARCOAL (1150-78)",
     "Brand": "Parfait Chunky",
     "InStock": 1,
     "InBag": 0,
@@ -401,7 +401,7 @@
   },
   {
     "Id": "737a98bf-a5e7-429b-89e8-93bcf46dafd2",
-    "Title": "1150-79 ACORN",
+    "Title": "ACORN (1150-79)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -409,7 +409,7 @@
   },
   {
     "Id": "74fdec38-499b-40e3-af45-42b8c9f7cbed",
-    "Title": "1150-80 MAPLE LEAF",
+    "Title": "MAPLE LEAF (1150-80)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -417,39 +417,39 @@
   },
   {
     "Id": "5cb830b7-1508-4090-9cf2-ad6f8ed94fc8",
-    "Title": "1150-81 ALMOND BUTTER",
+    "Title": "ALMOND BUTTER (1150-81)",
     "Brand": "Parfait Chunky",
-    "InStock": -1,
+    "InStock": 0,
     "InBag": 0,
     "IsDiscontinued": false
   },
   {
     "Id": "2e9d3e6b-65ac-4181-af43-2e3cb41e4283",
-    "Title": "1150-82 SUMMER SQUASH",
-    "Brand": "Parfait Chunky",
-    "InStock": 1,
-    "InBag": 0,
-    "IsDiscontinued": false
-  },
-  {
-    "Id": "e79d082f-4525-45bb-af70-18768c9167b7",
-    "Title": "1150-83 CARROT",
-    "Brand": "Parfait Chunky",
-    "InStock": 1,
-    "InBag": 0,
-    "IsDiscontinued": false
-  },
-  {
-    "Id": "98251e8a-892e-46e5-8e23-ba7a736c648a",
-    "Title": "1150-84 SEAWEED SALAD",
+    "Title": "SUMMER SQUASH (1150-82)",
     "Brand": "Parfait Chunky",
     "InStock": 1,
     "InBag": 1,
     "IsDiscontinued": false
   },
   {
+    "Id": "e79d082f-4525-45bb-af70-18768c9167b7",
+    "Title": "CARROT (1150-83)",
+    "Brand": "Parfait Chunky",
+    "InStock": 1,
+    "InBag": 1,
+    "IsDiscontinued": false
+  },
+  {
+    "Id": "98251e8a-892e-46e5-8e23-ba7a736c648a",
+    "Title": "SEAWEED SALAD (1150-84)",
+    "Brand": "Parfait Chunky",
+    "InStock": 2,
+    "InBag": 0,
+    "IsDiscontinued": false
+  },
+  {
     "Id": "7ca85a30-d1a9-4793-bd82-213f451921cf",
-    "Title": "1150-85 ROCK CANDY",
+    "Title": "ROCK CANDY (1150-85)",
     "Brand": "Parfait Chunky",
     "InStock": 1,
     "InBag": 0,
@@ -457,23 +457,23 @@
   },
   {
     "Id": "d4e4ff7d-8728-4fc4-a705-e713029c8151",
-    "Title": "1150-86 SOUR APPLE",
+    "Title": "SOUR APPLE (1150-86)",
     "Brand": "Parfait Chunky",
-    "InStock": 0,
-    "InBag": 1,
+    "InStock": 1,
+    "InBag": 0,
     "IsDiscontinued": false
   },
   {
     "Id": "a7817653-5fea-488a-8276-fca367f46de6",
-    "Title": "1150-87 PISTACHIO",
+    "Title": "PISTACHIO (1150-87)",
     "Brand": "Parfait Chunky",
-    "InStock": 0,
-    "InBag": 1,
+    "InStock": 1,
+    "InBag": 0,
     "IsDiscontinued": false
   },
   {
     "Id": "6c15a355-16d4-4e4c-a772-b46441ebb7ff",
-    "Title": "1150-88 ARTICHOKE",
+    "Title": "ARTICHOKE (1150-88)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -481,15 +481,15 @@
   },
   {
     "Id": "20dc75cd-5a59-4f92-a633-55a04da8d1d5",
-    "Title": "1150-89 IVY",
+    "Title": "IVY (1150-89)",
     "Brand": "Parfait Chunky",
-    "InStock": 0,
-    "InBag": 1,
+    "InStock": 1,
+    "InBag": 0,
     "IsDiscontinued": false
   },
   {
     "Id": "52350f57-aa69-4ebb-9538-d2dd24cb38ef",
-    "Title": "1150-90 APRICOT",
+    "Title": "APRICOT (1150-90)",
     "Brand": "Parfait Chunky",
     "InStock": 1,
     "InBag": 0,
@@ -497,15 +497,15 @@
   },
   {
     "Id": "bf75c92c-17b8-4521-bee9-c7e88674cd6e",
-    "Title": "91 COCOA",
+    "Title": "COCOA (91)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
-    "InBag": 0,
+    "InBag": 1,
     "IsDiscontinued": false
   },
   {
     "Id": "ec175fa8-48fc-4b60-9b52-15999c6601f1",
-    "Title": "92 MARSHMALLOW",
+    "Title": "MARSHMALLOW (92)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -513,7 +513,7 @@
   },
   {
     "Id": "f0a30642-a64e-4b4a-a2f6-42cdf2de53ea",
-    "Title": "93 CHESTNUT",
+    "Title": "CHESTNUT (93)",
     "Brand": "Parfait Chunky",
     "InStock": 0,
     "InBag": 0,
@@ -521,39 +521,39 @@
   },
   {
     "Id": "18d84363-511d-49fb-bb0b-688638b53301",
-    "Title": "94 KELLY GREEN",
-    "Brand": "Parfait Chunky",
-    "InStock": 2,
-    "InBag": 1,
-    "IsDiscontinued": false
+    "Title": "KELLY GREEN (94)",
+    "Brand": "Parfait Chunky Discontinued",
+    "InStock": 4,
+    "InBag": 0,
+    "IsDiscontinued": true
   },
   {
     "Id": "24a045c6-f882-4512-b17f-e321f7b5ed34",
-    "Title": "09 VERY BERRY BAG OF 3",
+    "Title": "VERY BERRY (09)",
     "Brand": "Parfait Chunky Discontinued",
-    "InStock": 3,
+    "InStock": 6,
     "InBag": 0,
     "IsDiscontinued": true
   },
   {
     "Id": "af798894-f1f0-43a4-861b-18598c980300",
-    "Title": "1150-33 DUSTY MAUVE BAG OF 3",
+    "Title": "DUSTY MAUVE (1150-33)",
     "Brand": "Parfait Chunky Discontinued",
-    "InStock": 3,
+    "InStock": 6,
     "InBag": 0,
     "IsDiscontinued": true
   },
   {
     "Id": "33fb700b-44cd-488d-8226-fbe24ee6e7ab",
-    "Title": "1150-37 ORCHID BAG OF 3",
+    "Title": "ORCHID (1150-37)",
     "Brand": "Parfait Chunky Discontinued",
-    "InStock": 3,
+    "InStock": 6,
     "InBag": 0,
     "IsDiscontinued": true
   },
   {
     "Id": "c8e3a56f-5080-4868-9def-bba5f90fdbc8",
-    "Title": "1150-38 PLUM BAG OF 3",
+    "Title": "PLUM (1150-38)",
     "Brand": "Parfait Chunky Discontinued",
     "InStock": 3,
     "InBag": 0,
@@ -561,7 +561,7 @@
   },
   {
     "Id": "810d72c4-ee26-438f-910a-9947e969c5fb",
-    "Title": "1150-42 ESPRESSO BAG OF 3",
+    "Title": "ESPRESSO (1150-42)",
     "Brand": "Parfait Chunky Discontinued",
     "InStock": 3,
     "InBag": 0,
@@ -569,7 +569,7 @@
   },
   {
     "Id": "27ddb4e3-1bd1-486d-9715-61fea45971bf",
-    "Title": "1150-43 PALE BLUE BAG OF 3",
+    "Title": "PALE BLUE (1150-43)",
     "Brand": "Parfait Chunky Discontinued",
     "InStock": 3,
     "InBag": 0,
@@ -577,42 +577,178 @@
   },
   {
     "Id": "f44b4106-91a7-46b1-acc3-43b970da398a",
-    "Title": "1150-44 SEAGLASS BAG OF 3",
-    "Brand": "Parfait Chunky Discontinued",
-    "InStock": 3,
-    "InBag": 0,
-    "IsDiscontinued": true
-  },
-  {
-    "Id": "7fa32ab4-1c7a-48b9-a510-d7de73cfa457",
-    "Title": "1150-45 PINK LEMONADE BAG OF 3",
+    "Title": "SEAGLASS (1150-44)",
     "Brand": "Parfait Chunky Discontinued",
     "InStock": 6,
     "InBag": 0,
     "IsDiscontinued": true
   },
   {
-    "Id": "accc0b98-e0d5-4100-8ebd-86574a0fadb3",
-    "Title": "1150-47 PEACOCK BAG OF 3",
+    "Id": "7fa32ab4-1c7a-48b9-a510-d7de73cfa457",
+    "Title": "PINK LEMONADE (1150-45)",
     "Brand": "Parfait Chunky Discontinued",
-    "InStock": 3,
+    "InStock": 8,
+    "InBag": 0,
+    "IsDiscontinued": true
+  },
+  {
+    "Id": "accc0b98-e0d5-4100-8ebd-86574a0fadb3",
+    "Title": "PEACOCK (1150-47)",
+    "Brand": "Parfait Chunky Discontinued",
+    "InStock": 6,
     "InBag": 0,
     "IsDiscontinued": true
   },
   {
     "Id": "5dc9e73c-0de8-41e5-8e3b-f2aa09c35fb9",
-    "Title": "53 LAGOON BAG OF 3",
+    "Title": "LAGOON (53)",
     "Brand": "Parfait Chunky Discontinued",
-    "InStock": 5,
+    "InStock": 8,
     "InBag": 0,
     "IsDiscontinued": true
   },
   {
     "Id": "32c89cd5-4d28-4f1b-9855-10517f941c42",
-    "Title": "Rose",
+    "Title": "Rose (48)",
     "Brand": "Parfait Chunky Discontinued",
-    "InStock": 3,
+    "InStock": 6,
     "InBag": 0,
     "IsDiscontinued": true
+  },
+  {
+    "Id": "a4b51076-267b-4613-b9d2-656dd878126d",
+    "Title": "White (2104-07)",
+    "Brand": "Just Chenille Cone",
+    "InStock": 1,
+    "InBag": 0,
+    "IsDiscontinued": false
+  },
+  {
+    "Id": "9b64e335-7706-46ff-86c7-ee041f2b138e",
+    "Title": "Z",
+    "Brand": "Z",
+    "InStock": 0,
+    "InBag": 1,
+    "IsDiscontinued": false
+  },
+  {
+    "Id": "15add0e0-de95-44ad-bde3-b64eef9ffd98",
+    "Title": "Yellow (2017-08)",
+    "Brand": "Just Chenille - 50g",
+    "InStock": 1,
+    "InBag": 0,
+    "IsDiscontinued": false
+  },
+  {
+    "Id": "00fb62dc-5bf4-428e-916d-641f577feb1f",
+    "Title": "Custard (1150-95)",
+    "Brand": "Parfait Chunky",
+    "InStock": 0,
+    "InBag": 0,
+    "IsDiscontinued": false
+  },
+  {
+    "Id": "0eba469a-6caa-4ef8-a32d-121dc99f3328",
+    "Title": "Blossom (1150-96)",
+    "Brand": "Parfait Chunky",
+    "InStock": 0,
+    "InBag": 0,
+    "IsDiscontinued": false
+  },
+  {
+    "Id": "21189c34-4515-4319-a8b7-7eda619ebff9",
+    "Title": "Dark Olive (1150-97)",
+    "Brand": "Parfait Chunky",
+    "InStock": 0,
+    "InBag": 0,
+    "IsDiscontinued": false
+  },
+  {
+    "Id": "24cac10a-7458-40d0-b01a-874f75b6aedf",
+    "Title": "Robins Egg (1150-98)",
+    "Brand": "Parfait Chunky",
+    "InStock": 0,
+    "InBag": 0,
+    "IsDiscontinued": false
+  },
+  {
+    "Id": "63e903ad-3e86-4c69-9f17-ee1ebcf91025",
+    "Title": "Reef (1150-99)",
+    "Brand": "Parfait Chunky ",
+    "InStock": 0,
+    "InBag": 0,
+    "IsDiscontinued": false
+  },
+  {
+    "Id": "21d0a778-c9df-44c9-8dce-ca7804a7eb75",
+    "Title": "Cinder (1150-100)",
+    "Brand": "Parfait Chunky ",
+    "InStock": 0,
+    "InBag": 0,
+    "IsDiscontinued": false
+  },
+  {
+    "Id": "b3228933-d1e5-4762-9879-5a30ca592cf1",
+    "Title": "Periwinkle (1150-101)",
+    "Brand": "Parfait Chunky ",
+    "InStock": 0,
+    "InBag": 0,
+    "IsDiscontinued": false
+  },
+  {
+    "Id": "378077d8-73ef-412d-8de5-8f5e0347556b",
+    "Title": "Acai (1150-102)",
+    "Brand": "Parfait Chunky ",
+    "InStock": 0,
+    "InBag": 0,
+    "IsDiscontinued": false
+  },
+  {
+    "Id": "73e8f43f-9fa8-463b-9cd5-f3eac1aba463",
+    "Title": "Amethyst (1150-103)",
+    "Brand": "Parfait Chunky ",
+    "InStock": 0,
+    "InBag": 0,
+    "IsDiscontinued": false
+  },
+  {
+    "Id": "60ce231e-ca94-434b-aec5-29f64658d520",
+    "Title": "Pumpkin (1150-104)",
+    "Brand": "Parfait Chunky",
+    "InStock": 0,
+    "InBag": 0,
+    "IsDiscontinued": false
+  },
+  {
+    "Id": "2ecd8b94-29c0-4d6f-ad85-c28e254c82a8",
+    "Title": "Honey (1150-105)",
+    "Brand": "Parfait Chunky",
+    "InStock": 0,
+    "InBag": 0,
+    "IsDiscontinued": false
+  },
+  {
+    "Id": "81c15b49-eb63-49a4-989d-1e680c9cae17",
+    "Title": "Blush (1150-52)",
+    "Brand": "Parfait Chunky",
+    "InStock": 0,
+    "InBag": 0,
+    "IsDiscontinued": false
+  },
+  {
+    "Id": "204b7c42-2d3a-429f-9c8c-cb447bc3cd51",
+    "Title": "Inkwell",
+    "Brand": "Bernat Blanket",
+    "InStock": 2,
+    "InBag": 0,
+    "IsDiscontinued": false
+  },
+  {
+    "Id": "2f471004-62a4-4732-9eb8-8fcaf4461473",
+    "Title": "Black",
+    "Brand": "Bernat Blanket",
+    "InStock": 1,
+    "InBag": 0,
+    "IsDiscontinued": false
   }
 ]

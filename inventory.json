@@ -742,5 +742,13 @@
     "InStock": 1,
     "InBag": 0,
     "IsDiscontinued": false
+  },
+  {
+    "Id": "96ea7f73-b0b5-4d39-b133-274309a1b4a8",
+    "Title": "Wine Red",
+    "Brand": "Retro Velvet Grand",
+    "InStock": 2,
+    "InBag": 0,
+    "IsDiscontinued": false
   }
 ]

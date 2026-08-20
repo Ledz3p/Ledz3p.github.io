@@ -84,7 +84,7 @@
     "Title": "SUNSHINE (1150-12)",
     "Brand": "Parfait Chunky",
     "InStock": 1,
-    "InBag": 0,
+    "InBag": 1,
     "IsDiscontinued": false
   },
   {
@@ -692,7 +692,7 @@
     "Title": "Acai (1150-102)",
     "Brand": "Parfait Chunky ",
     "InStock": 0,
-    "InBag": 3,
+    "InBag": 4,
     "IsDiscontinued": false
   },
   {

@@ -2,20 +2,20 @@ name: PAT Expiration Reminder
 
 on:
   schedule:
-    # Runs every Monday at 9:00 AM UTC
-    - cron: '0 9 * * 1'
-  workflow_dispatch: # Allows manual trigger from the Actions tab for testing
+    - cron: '0 9 * * 1' # Runs every Monday
+  workflow_dispatch:
 
 jobs:
-  check-token-expiration:
+  check-token:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
-      - name: Calculate Days Remaining and Notify
+      - name: Check Expiration and Create Issue
         env:
-          # Set this to the date you generated/regenerated your token (YYYY-MM-DD)
-          TOKEN_GEN_DATE: '2026-08-27'
+          TOKEN_GEN_DATE: '2026-08-27' # Update this date whenever you regenerate
           TOKEN_EXPIRY_DAYS: 90
-          NOTIFICATION_EMAIL: ${{ secrets.NOTIFICATION_EMAIL }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           GEN_SEC=$(date -d "$TOKEN_GEN_DATE" +%s)
           NOW_SEC=$(date +%s)
@@ -24,18 +24,8 @@ jobs:
 
           echo "Token age: $AGE_DAYS days. Days remaining: $DAYS_LEFT days."
 
-          # Send notification if 5 or fewer days remain
-          if [ $DAYS_LEFT -le 5 ]; then
-            echo "Token expiring soon! Sending notification email..."
-            
-            # Format email payload using mailchannels / curl fallback
-            curl -s --url 'https://api.sendgrid.com/v3/mail/send' \
-              --header "Authorization: Bearer ${{ secrets.SENDGRID_API_KEY }}" \
-              --header 'Content-Type: application/json' \
-              --data "{
-                \"personalizations\": [{\"to\": [{\"email\": \"$NOTIFICATION_EMAIL\"}]}],
-                \"from\": {\"email\": \"no-reply@github-actions.local\"},
-                \"subject\": \"⚠️ GitHub Token Expiring in $DAYS_LEFT Days\",
-                \"content\": [{\"type\": \"text/plain\", \"value\": \"Your Yarn App GitHub Personal Access Token is expiring in $DAYS_LEFT days.\n\nRegenerate it here: https://github.com/settings/tokens\n\nThen update your token AND Gen Date in workflows in the app: https://ledz3p.github.io\"}]
-              }" || echo "Notice: Set up SendGrid or use GitHub Issues fallback."
+          if [ $DAYS_LEFT -le 7 ] && [ $DAYS_LEFT -gt 0 ]; then
+            gh issue create \
+              --title "⚠️ Action Required: Regenerate GitHub PAT ($DAYS_LEFT days left)" \
+              --body "Your Yarn App Personal Access Token will expire in **$DAYS_LEFT days**.\n\n1. [Regenerate Token on GitHub](https://github.com/settings/tokens)\n2. Open [Yarn App](https://ledz3p.github.io)\n3. Click **Cloud Connected** and paste the new key.\n4. Update \`TOKEN_GEN_DATE\` in \`.github/workflows/token-reminder.yml\`."
           fi
